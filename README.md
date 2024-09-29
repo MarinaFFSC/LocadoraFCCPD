@@ -58,15 +58,8 @@ O **Produtor** enviará mensagens sobre operações de aluguel, atualizações d
 
 O **Consumidor** receberá as mensagens enviadas pelo Produtor, processando as operações ou enviando notificações aos clientes.
 
-### 3. Executar o Backend de Auditoria
-
-1. Clique com o botão direito sobre o arquivo `AuditApplication.java` (ou similar) dentro do pacote correspondente.
-2. Selecione **Run As** > **Java Application**.
-
-O **Backend de Auditoria** irá registrar logs de todas as mensagens trocadas no sistema, permitindo auditoria e rastreabilidade.
-
 ## Cenários de Teste
 
-- **Um Produtor e Múltiplos Consumidores**: Teste como as mensagens são distribuídas entre os consumidores e como o Backend de Auditoria registra as transações.
-- **Múltiplos Produtores e Consumidores**: Verifique a comunicação em um ambiente com várias instâncias de produtores e consumidores, e como as mensagens são auditadas em tempo real.
-- **Auditoria Completa**: Certifique-se de que todas as mensagens enviadas e consumidas são corretamente registradas pelo Backend de Auditoria.
+- **Um Produtor e Múltiplos Consumidores**: Testar como as mensagens são distribuídas entre os consumidores e como o Backend de Auditoria registra as transações.
+- **Múltiplos Produtores e Consumidores**: Verificar a comunicação em um ambiente com várias instâncias de produtores e consumidores, e como as mensagens são auditadas em tempo real.
+- **Auditoria Completa**: Certificar-se de que todas as mensagens enviadas e consumidas são corretamente registradas pelo Backend de Auditoria.
