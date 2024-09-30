@@ -43,7 +43,7 @@ O Cliente (consumidor) escolhe quais catálogos de filmes ele deseja ter acesso,
   
   Checar se:
   
-   -Ele confirma se está enviando a lista de filmes, bem como o status da conexão;
+   -Ele confirma se está enviando a lista de filmes;
   
    -Se após ele enviar a mensagem ele volta para o Menu de opções: 1. Produtor de mensagens - Enviar Lista de Filmes, 2. Sair
 
