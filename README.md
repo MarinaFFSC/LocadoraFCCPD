@@ -1,100 +1,72 @@
 Locadora Online 
 
-Este projeto implementa um sistema de envio e recebimento de mensagens para uma locadora online, utilizando **RabbitMQ** como intermediador. A aplicação é dividida em três componentes principais: **Produtor**, **Consumidor** e **Backend de Auditoria**, que trocam informações sobre o aluguel de filmes, atualização de catálogo e notificações aos clientes.
+Este projeto implementa um sistema de envio de mensagens de uma locadora online para os clientes, utilizando **RabbitMQ** como intermediador.
+
+O Cliente (consumidor) escolhe quais catálogos de filmes ele deseja ter acesso, a partir da escolha de categorias de filmes, e então a Locadora ( Produtor) envia  o seu catálogo de filmes de cada categoria para os consumidores que escolheram determinada categoria.
+
+ A aplicação é dividida em três componentes principais: Produtor, Consumidor e Backend de Auditoria, o qual salva todas as mensagens enviadas pelo Produtor independente da classe de filmes.
+
 
 ## Estrutura do Projeto
 
-- **Produtor (Administração da Locadora / Sistema de Pagamentos)**: Envia mensagens sobre operações de aluguel, atualizações de catálogo e pagamentos.
-- **Consumidor (Aplicação Cliente / Serviço de Notificação)**: Recebe as mensagens e processa as operações ou envia notificações.
-- **Backend de Auditoria**: Armazena logs das mensagens trocadas para garantir integridade, rastreabilidade e auditoria das operações realizadas.
+- **Produtor (Administração da Locadora)**:  Envia a Lista de Filmes Disponíveis na Locadora para o Consumidor que escolheu determinada classe (categoria) de filme.
+- **Consumidor (Cliente (s))**: Recebe as mensagens do produtor.
+- **Backend de Auditoria**: Armazena todas as mensagens enviadas pelo produtor.
 
-### Tecnologias Utilizadas
+  
+## Execução do Projeto
 
-- **Java 17**
+1.Importar projeto na IDE para Java;
+
+2.Abra a IDE para Python (ex: VsCode) e copie nele a classe prodmessenger, agora adquirindo papel de uma pasta, com seus arquivos .py dentro dela;
+
+3.Execute audit.backend.py - Na IDE com o arquivo Python;
+
+4.Execute  consumer.py ( Pode executar outros consumidores) -  Na IDE com o arquivo Python;
+
+5.Execute LocadoraOficialApplication - Na IDE em Java;
+
+6.No consumer.py, escolha os canais de filmes desejados para recebimento do catálogo;
+
+7.No Terminal da IDE do arquivo Java escolha a opção: 1. Produtor de mensagens, para enviar as listas para cada canal de filmes;
+
+8.Escolha o canal de filme que enviará a lista para os consumidores digitando o número correspondente ao canal desejado;
+
+9.Repita o passo 5 até não querer enviar mais mensagens para os produtores;
+
+10.Para parar a execução digite 2 no Terminal da IDE em Java;
+
+
+## Cenários de Teste
+###  Como Produtor: 
+- Escolha a opção 1 para enviar mensagens através do produtor, depois escolher o canal de filmes que será enviado para o consumidor.
+  
+  Checar se:
+  
+   -Ele confirma se está enviando a lista de filmes, bem como o status da conexão;
+  
+   -Se após ele enviar a mensagem ele volta para o Menu de opções: 1. Produtor de mensagens - Enviar Lista de Filmes, 2. Sair
+
+- Verificar se está sendo possível enviar várias mensagens,uma após a outra. Sendo o fluxo como descrito acima, após ele escolher o canal a ser enviado (ex: 3. romance), ele mostre que a mensagem está sendo enviada, e depois volte para o Menu.
+-  Verificar que o sistema encerra quando o 2. Sair. é apertado.
+
+
+###  Como Consumidor: 
+- Escolha apenas uma opção de canal de filme para conferir se chega só uma (ex: terror);
+
+- Escolha mais de uma opção de canal de filme para conferir se chegará as duas (ex: comedia, terror);
+
+- Execute dois consumidores diferentes ao mesmo tempo e confira se as mensagens continuam chegando corretamente em cada um deles, ou seja, se cada consumidor continua recebendo apenas os canais de filmes nas quais se cadastrou;
+
+- Verifique se os consumidores estão recebendo apenas as mensagens dos canais escolhidos;
+
+- Verifique se todas as mensagens enviadas pelo Produtor estão sendo armazenadas em Auditoria.
+
+
+###Tecnologias Utilizadas
+- **Java**
 - **Spring Boot 3.3.3**
 - **RabbitMQ**
 - **Maven**
 - **Python 3.x**
 - **Pika (biblioteca para RabbitMQ em Python)**
-
-## Configuração do Ambiente
-### 1. Pré-requisitos
-- **Java 17+**
-- **Maven 3.8+**
-- **Python 3.x instalado**
-- **IDE: Qualquer editor de texto ou IDE que suporte Python (como VSCode, PyCharm, etc.)**
-- **RabbitMQ instalado** (ou uma instância remota configurada)
-- **IDE**: Eclipse ou IntelliJ IDEA
-
-### 2. Importar o projeto na IDE
-#### Eclipse:
-1. Abra o **Eclipse** e selecione um workspace.
-2. No menu superior, vá em **File** > **Import...** > **Existing Maven Projects**.
-3. Selecione o diretório raiz do projeto onde estão os arquivos `pom.xml` e clique em **Finish**.
-4. Aguarde o Maven baixar as dependências.
-
-### 2. Importar o projeto na IDE
-1. Abra o **VSCode** e selecione a pasta do projeto.
-2. Se você ainda não instalou a extensão Python, vá em **Extensões** (ícone do quadrado no menu à esquerda) e procure por **Python**. Instale a extensão oficial da Microsoft.
-3. Certifique-se de que o **Python** esteja instalado no seu sistema. Caso não esteja, baixe e instale a versão mais recente de [python.org](https://www.python.org/downloads/).
-4. No terminal do **VSCode**, execute o comando abaixo para garantir que a biblioteca `pika` (utilizada para integração com RabbitMQ) esteja instalada:
-
-   ```
-   pip install pika
-   ```
-
-### 3. Configuração do RabbitMQ
-
-No arquivo `application.properties`, adicione as credenciais e a URL de conexão do RabbitMQ, além das configurações das exchanges e filas, se necessário:
-
-```properties
-spring.rabbitmq.host=<HOST>
-spring.rabbitmq.username=<USERNAME>
-spring.rabbitmq.password=<PASSWORD>
-
-message.topicExchangeName=locadora.topic.exchange
-```
-
-## Execução do Projeto
-
-### Passos para Executar o Produtor (Python) e o Consumidor (Java)
-
-#### 1. Executar o **Produtor** em Python no VSCode
-
-1. **Abra o VSCode** e selecione a pasta onde está o arquivo do **produtor.py**.
-2. Certifique-se de que o ambiente Python esteja configurado corretamente.
-3. No terminal integrado do **VSCode**, navegue até o diretório do seu código Python e execute o produtor com o seguinte comando:
-
-   ```
-   python produtor.py
-   ```
-
-4. O **Produtor** agora estará enviando mensagens para o RabbitMQ de acordo com a lógica implementada no código.
-
-#### 2. Executar o **Consumidor** em Java no Eclipse
-
-1. **Abra o Eclipse** e carregue o projeto que contém o **Consumidor** em Java.
-2. No arquivo de configuração do **Consumidor**, certifique-se de que as credenciais e as configurações de conexão com o RabbitMQ estão corretas e compatíveis com o Produtor.
-3. Clique com o botão direito no arquivo `ConsApplication.java` (ou o nome do seu arquivo principal do consumidor) e selecione **Run As** > **Java Application**.
-
-4. O **Consumidor** estará ouvindo as mensagens enviadas pelo Produtor em Python, através do RabbitMQ.
-
-### Interface de Comunicação
-
-- **Produtor (Python)**: Envia as mensagens através do RabbitMQ usando a **Topic Exchange** configurada no código Python.
-- **Consumidor (Java)**: Recebe as mensagens do RabbitMQ, conforme a lógica implementada no código Java.
-
-Ambos se comunicam via **RabbitMQ**, e a interface de comunicação entre eles é o protocolo de mensagens fornecido pelo **RabbitMQ**. Você não precisa de uma interface gráfica específica para rodar o produtor e o consumidor; a troca de mensagens acontece através das filas e exchanges configuradas no RabbitMQ.
-
-### Teste dos Componentes
-
-1. **Envie uma mensagem** através do **Produtor (Python)** e verifique se o **Consumidor (Java)** consegue processá-la corretamente.
-2. Você pode abrir um terminal no **RabbitMQ Management Interface** (se estiver habilitada) para visualizar as mensagens e as filas sendo processadas.
-
-Se precisar de mais detalhes sobre como ajustar as configurações entre o Produtor e o Consumidor ou rodar ambos em paralelo, é só avisar!
-
-## Cenários de Teste
-
-- **Um Produtor e Múltiplos Consumidores**: Testar como as mensagens são distribuídas entre os consumidores e como o Backend de Auditoria registra as transações.
-- **Múltiplos Produtores e Consumidores**: Verificar a comunicação em um ambiente com várias instâncias de produtores e consumidores, e como as mensagens são auditadas em tempo real.
-- **Auditoria Completa**: Certificar-se de que todas as mensagens enviadas e consumidas são corretamente registradas pelo Backend de Auditoria.
