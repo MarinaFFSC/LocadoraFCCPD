@@ -45,19 +45,11 @@ public class MovieProducerRunner implements CommandLineRunner {
                     break;
             }
         }
-        
     }
 
     private void runProducer() {
         Scanner scanner = new Scanner(System.in);
         String[] movieCategories = {"comedia", "terror", "romance", "acao", "scifi"};
-        String[][] movieLists = {
-            {"A Ressaca", "As Branquelas", "Superbad: É Hoje", "Se Beber, Não Case", "Zumbilândia"},
-            {"Invocação do Mal", "A Morte do Demônio", "O Exorcista", "Hereditário", "It: A Coisa"},
-            {"Diário de uma Paixão", "A Culpa é das Estrelas", "Como Eu Era Antes de Você", "Orgulho e Preconceito", "Simplesmente Acontece"},
-            {"Mad Max: Estrada da Fúria", "Velozes e Furiosos 7", "John Wick", "Gladiador", "Os Vingadores"},
-            {"Interstellar", "Blade Runner 2049", "A Chegada", "Matrix", "Star Wars: O Império Contra-Ataca"}
-        };
 
         System.out.println("Escolha o canal de filme:");
         for (int i = 0; i < movieCategories.length; i++) {
@@ -68,12 +60,11 @@ public class MovieProducerRunner implements CommandLineRunner {
         String selectedCategory = movieCategories[choice - 1];
         String routingKey = "filme." + selectedCategory;
 
-        String[] selectedMovies = movieLists[choice - 1];
-
         System.out.println("Enviando lista de filmes de " + selectedCategory);
-        rabbitTemplate.convertAndSend(EXCHANGE_NAME, routingKey, "Lista de filmes de " + selectedCategory + ": " + String.join(", ", selectedMovies));
+        rabbitTemplate.convertAndSend(EXCHANGE_NAME, routingKey, "Lista de filmes de " + selectedCategory);
 
         System.out.println("Filme reservado e pronto para retirada.");
-        rabbitTemplate.convertAndSend(EXCHANGE_NAME, routingKey, "Filme reservado e pronto para retirada.");
+        rabbitTemplate.convertAndSend(EXCHANGE_NAME, routingKey, "Filme reservado e pronto para retirada.");
     }
-}
+} 
+

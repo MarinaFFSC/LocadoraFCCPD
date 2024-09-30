@@ -24,3 +24,4 @@ print(f"Aguardando mensagens no canal '{canal_escolhido}'...")
 
 channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=True)
 channel.start_consuming()
+
