@@ -1,13 +1,13 @@
-package com.example.consmessenger;
+package com.example.LocadoraOficial;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ConsmessengerApplication {
+public class LocadoraOficialApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ConsmessengerApplication.class, args);
+		SpringApplication.run(LocadoraOficialApplication.class, args);
 	}
 
 }
