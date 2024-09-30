@@ -91,8 +91,6 @@ Ambos se comunicam via **RabbitMQ**, e a interface de comunicação entre eles �
 1. **Envie uma mensagem** através do **Produtor (Python)** e verifique se o **Consumidor (Java)** consegue processá-la corretamente.
 2. Você pode abrir um terminal no **RabbitMQ Management Interface** (se estiver habilitada) para visualizar as mensagens e as filas sendo processadas.
 
-Se precisar de mais detalhes sobre como ajustar as configurações entre o Produtor e o Consumidor ou rodar ambos em paralelo, é só avisar!
-
 ## Cenários de Teste
 
 - **Um Produtor e Múltiplos Consumidores**: Testar como as mensagens são distribuídas entre os consumidores e como o Backend de Auditoria registra as transações.
