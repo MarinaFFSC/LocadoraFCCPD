@@ -10,6 +10,6 @@ public class RabbitConfig {
 
     @Bean
     public TopicExchange movieExchange() {
-        return new TopicExchange(EXCHANGE_NAME);
+        return new TopicExchange(EXCHANGE_NAME, false, false);
     }
 }

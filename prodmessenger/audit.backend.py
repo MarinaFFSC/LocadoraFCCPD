@@ -12,10 +12,9 @@ channel = connection.channel()
 
 channel.exchange_declare(exchange='movie_topic_exchange', exchange_type='topic')
 
+# Criação da fila temporária e vínculo com todas as chaves de roteamento de filme
 result = channel.queue_declare(queue='', exclusive=True)
 queue_name = result.method.queue
-
-# Captura todas as mensagens do tópico 'filme'
 channel.queue_bind(exchange='movie_topic_exchange', queue=queue_name, routing_key="filme.#")
 
 print("Backend de auditoria aguardando mensagens...")
